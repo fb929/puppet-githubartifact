@@ -3,7 +3,7 @@
 class githubartifact (
   Optional[Hash] $install = undef,
 ) {
-  package { "jq": }
+  ensure_resources(package, { "jq" => { 'ensure' => 'present' }})
   file {
     [
       "/opt/",
