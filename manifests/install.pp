@@ -48,7 +48,13 @@ define githubartifact::install (
     $_package_name = $package_name
   }
   if $package_version == undef {
-    $_package_version = regsubst($releasetag,'^v(.*)$','\\1')
+    # fix for rpm version: dashes is not allowed, only underscores
+    if $pattern =~ /.*\.rpm$/ {
+      $_package_version_1 = regsubst($releasetag,'-','_', 'G')
+      $_package_version = regsubst($_package_version_1,'^v(.*)$','\\1-1')
+    } else {
+      $_package_version = regsubst($releasetag,'^v(.*)$','\\1')
+    }
   } else {
     $_package_version = $package_version
   }
