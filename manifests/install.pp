@@ -75,6 +75,7 @@ define githubartifact::install (
   exec { "download $name":
     command => "/opt/githubartifact/bin/downloadGithubArtifact.sh",
     environment => [
+      'LANG=en_US.UTF-8',
       "ORG_NAME=$org_name",
       "REPOSITORY=$repository",
       "RELEASETAG=$releasetag",

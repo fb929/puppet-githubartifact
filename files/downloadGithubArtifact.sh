@@ -1,4 +1,5 @@
 #!/bin/bash
+#set -x
 PATH=/bin:/usr/bin:/sbin:/usr/sbin
 
 # downloads the release artifact from github
@@ -55,6 +56,10 @@ fi
 ASSET_URL=$( echo "$RELEASES" | $JQ --raw-output ".[] | select(.tag_name==\"$RELEASETAG\").assets[] | select(.name|test(\"$PATTERN\")).url" )
 if [[ -z "$ASSET_URL" ]]; then
     echo "ERROR: failed get ASSET_URL" 1>&2
+    exit 1
+fi
+if ! [[ "$(echo "$ASSET_URL" | wc -l)" -eq 1 ]]; then
+    echo "ERROR: failed get ASSET_URL, too many lines='$ASSET_URL'" 1>&2
     exit 1
 fi
 
