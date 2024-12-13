@@ -2,6 +2,7 @@
 #   download and install github artifact
 class githubartifact (
   Optional[Hash] $install = undef,
+  Boolean $debug = false,
 ) {
   ensure_resources(package, { "jq" => { 'ensure' => 'present' }})
   file {
@@ -14,7 +15,7 @@ class githubartifact (
       ensure => directory,
     ;
     "/opt/githubartifact/bin/downloadGithubArtifact.sh":
-      source => "puppet:///modules/${module_name}/downloadGithubArtifact.sh",
+      content => template("${module_name}/downloadGithubArtifact.sh.erb"),
       mode => "0755",
     ;
   }
